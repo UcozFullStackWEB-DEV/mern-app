@@ -15,9 +15,9 @@ const get_errors = errors => {
   };
 };
 
-export const userRegister = userInfo => dispatch => {
+export const userRegister = (userInfo, history) => dispatch => {
   axios
     .post("/api/users/register", userInfo)
     .then(user => dispatch(user_register(user.data)))
-    .catch(err => dispatch(get_errors(err.response.data)));
+    .catch(err => dispatch(get_errors(err.response.data), history));
 };

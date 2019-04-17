@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { userRegister } from "../../actions/auth-actions";
+import { withRouter } from "react-router-dom";
 
 class Register extends Component {
   constructor() {
@@ -29,8 +30,12 @@ class Register extends Component {
       password,
       password2
     };
-
-    this.props.userRegister(newUser);
+    console.log(
+      this.props.userRegister(newUser, this.props.history)((a, b, c) =>
+        console.log(a, b, c)
+      )
+    );
+    this.props.userRegister(newUser, this.props.history);
   };
 
   componentWillReceiveProps(nextProps) {
@@ -145,11 +150,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    userRegister: userInfo => dispatch(userRegister(userInfo))
+    userRegister: (userInfo, history) => userRegister(userInfo, history)
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Register);
+)(withRouter(Register));
