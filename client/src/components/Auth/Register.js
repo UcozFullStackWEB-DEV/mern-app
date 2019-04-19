@@ -30,12 +30,8 @@ class Register extends Component {
       password,
       password2
     };
-    console.log(
-      this.props.userRegister(newUser, this.props.history)((a, b, c) =>
-        console.log(a, b, c)
-      )
-    );
     this.props.userRegister(newUser, this.props.history);
+    // this.props.userRegister(newUser, this.props.history);
   };
 
   componentWillReceiveProps(nextProps) {
@@ -150,7 +146,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    userRegister: (userInfo, history) => userRegister(userInfo, history)
+    userRegister: (userInfo, history) => {
+      //dispatch ( dispatch => axios.post....)(dispatch)
+      dispatch(userRegister(userInfo, history));
+    }
   };
 };
 

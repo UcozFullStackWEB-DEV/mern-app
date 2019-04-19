@@ -16,8 +16,9 @@ const get_errors = errors => {
 };
 
 export const userRegister = (userInfo, history) => dispatch => {
+  console.log(dispatch);
   axios
     .post("/api/users/register", userInfo)
-    .then(user => dispatch(user_register(user.data)))
-    .catch(err => dispatch(get_errors(err.response.data), history));
+    .then(user => history.push("/login"))
+    .catch(err => dispatch(get_errors(err.response.data)));
 };
