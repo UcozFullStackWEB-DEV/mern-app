@@ -15,10 +15,17 @@ const get_errors = errors => {
   };
 };
 
-export const userRegister = (userInfo, history) => dispatch => {
-  console.log(dispatch);
+export const userRegister = (userInfo, history) => (dispatch, getState) => {
+  console.log(getState);
   axios
     .post("/api/users/register", userInfo)
     .then(user => history.push("/login"))
+    .catch(err => dispatch(get_errors(err.response.data)));
+};
+
+export const userLogin = userInfo => dispatch => {
+  axios
+    .post("/api/users/login", userInfo)
+    .then(user => {})
     .catch(err => dispatch(get_errors(err.response.data)));
 };
