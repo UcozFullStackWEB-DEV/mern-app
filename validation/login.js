@@ -10,12 +10,12 @@ module.exports = function validateLoginInputs(data) {
   email = !isEmpty(email) ? email : "";
   password = !isEmpty(password) ? password : "";
 
-  if (Validator.isEmpty(email)) {
-    errors.name = "email field is required";
-  }
-
   if (!Validator.isEmail(email)) {
     errors.email = "email is invalid";
+  }
+
+  if (Validator.isEmpty(email)) {
+    errors.email = "email field is required";
   }
 
   //Validator have method with the same name as our function

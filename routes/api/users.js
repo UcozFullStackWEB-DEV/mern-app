@@ -61,10 +61,8 @@ router.post("/register", (req, res) => {
           newUser
             .save()
             .then(user => res.json(user))
-            .catch(err => {
-              this.setState({
-                errors: err.response.data
-              });
+            .catch(errors => {
+              return res.status(404).json(errors);
             });
         });
       });
@@ -81,7 +79,7 @@ router.post("/login", (req, res) => {
   const { isValid, errors } = validateLoginInputs(req.body);
 
   if (!isValid) {
-    res.status(400).json(errors);
+    return res.status(400).json(errors);
   }
 
   // Find user by email with mongo model

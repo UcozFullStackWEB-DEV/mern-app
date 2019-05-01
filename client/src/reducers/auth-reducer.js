@@ -1,4 +1,4 @@
-import { USER_REGISTER_SUCCES } from "../actions/types";
+import { SET_CURRENT_USER, USER_LOG_OUT } from "../actions/types";
 
 const initialState = {
   isAuthenticated: false,
@@ -7,10 +7,17 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case USER_REGISTER_SUCCES:
+    case SET_CURRENT_USER:
       return {
         ...state,
+        isAuthenticated: !!action.payload,
         user: action.payload
+      };
+    case USER_LOG_OUT:
+      return {
+        ...state,
+        isAuthenticated: false,
+        user: {}
       };
     default:
       return state;

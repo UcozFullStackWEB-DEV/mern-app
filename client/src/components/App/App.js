@@ -1,14 +1,33 @@
 import React, { Component } from "react";
-import "./App.css";
 import { Route } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "../../store";
+import setAuthToken from "../../utils/setAuthToken";
+import parseJwt from "../../utils/parseJWT";
+import { setCurrentUser, logOutUser } from "../../actions/auth-actions";
+import { clearCurrentProfile } from "../../actions/profile-actions";
 import Navbar from "../layout/Navbar";
 import Landing from "../layout/Landing";
 import Footer from "../layout/Footer";
 import Register from "../Auth/Register";
 import Login from "../Auth/Login";
-import { BrowserRouter } from "react-router-dom";
-import { Provider } from "react-redux";
-import store from "../../store";
+import Dashboard from "../dashboard/dashboard";
+import CreateProfile from "../Profile/create-profile";
+import "./App.css";
+
+if (localStorage.jwtToken) {
+  console.log("user is authenticated");
+  const { jwtToken } = localStorage;
+  setAuthToken(jwtToken);
+  const decodedUser = parseJwt(jwtToken);
+  store.dispatch(setCurrentUser(decodedUser));
+  if (decodedUser.exp < Date.now() / 1000) {
+    store.dispatch(clearCurrentProfile());
+    store.dispatch(logOutUser());
+    window.location.href = "/login";
+  }
+}
 
 class App extends Component {
   render() {
@@ -24,6 +43,8 @@ class App extends Component {
               <div className="container">
                 <Route path={"/register"} component={Register} />
                 <Route path={"/login"} component={Login} />
+                <Route path={"/dashboard"} component={Dashboard} />
+                <Route path={"/create-profile"} component={CreateProfile} />
               </div>
             </main>
             <Footer />

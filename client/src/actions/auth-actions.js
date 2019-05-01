@@ -1,31 +1,57 @@
 import axios from "axios";
-import { USER_REGISTER_SUCCES, USER_REGISTER_FAILURE } from "./types";
+import {
+  USER_REGISTER_FAILURE,
+  SET_CURRENT_USER,
+  USER_LOG_OUT,
+  USER_LOGIN_ERRORS
+} from "./types";
+import setAuthToken from "../utils/setAuthToken";
+import parseJwt from "../utils/parseJWT";
 
-const user_register = user => {
-  return {
-    type: USER_REGISTER_SUCCES,
-    payload: user
-  };
-};
-
-const get_errors = errors => {
+const get_register_errors = errors => {
   return {
     type: USER_REGISTER_FAILURE,
     payload: errors
   };
 };
 
-export const userRegister = (userInfo, history) => (dispatch, getState) => {
-  console.log(getState);
+const get_login_errors = errors => {
+  return {
+    type: USER_LOGIN_ERRORS,
+    payload: errors
+  };
+};
+
+export const userRegister = (userInfo, history) => dispatch => {
   axios
     .post("/api/users/register", userInfo)
     .then(user => history.push("/login"))
-    .catch(err => dispatch(get_errors(err.response.data)));
+    .catch(err => dispatch(get_register_errors(err.response.data)));
 };
 
 export const userLogin = userInfo => dispatch => {
   axios
     .post("/api/users/login", userInfo)
-    .then(user => {})
-    .catch(err => dispatch(get_errors(err.response.data)));
+    .then(res => {
+      const { token } = res.data;
+      const decodedUser = parseJwt(token);
+      localStorage.setItem("jwtToken", token);
+      setAuthToken(token);
+      dispatch(setCurrentUser(decodedUser));
+    })
+    .catch(err => dispatch(get_login_errors(err.response.data)));
+};
+
+export const setCurrentUser = decodedUser => {
+  return {
+    type: SET_CURRENT_USER,
+    payload: decodedUser
+  };
+};
+
+export const logOutUser = () => dispatch => {
+  localStorage.removeItem("jwtToken");
+  //Remove headers from axios
+  setAuthToken(null);
+  dispatch({ type: USER_LOG_OUT });
 };
