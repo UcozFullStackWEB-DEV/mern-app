@@ -14,6 +14,7 @@ import Register from "../Auth/Register";
 import Login from "../Auth/Login";
 import Dashboard from "../dashboard/dashboard";
 import CreateProfile from "../Profile/create-profile";
+import EditProfile from "../Profile/edit-profile";
 import "./App.css";
 
 if (localStorage.jwtToken) {
@@ -45,6 +46,7 @@ class App extends Component {
                 <Route path={"/login"} component={Login} />
                 <Route path={"/dashboard"} component={Dashboard} />
                 <Route path={"/create-profile"} component={CreateProfile} />
+                <Route path={"/edit-profile"} component={EditProfile} />
               </div>
             </main>
             <Footer />

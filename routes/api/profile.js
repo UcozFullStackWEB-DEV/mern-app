@@ -145,7 +145,7 @@ router.post(
             res.status(400).json(errors);
           }
           //Save
-          new Profile(profilefields).save().then(profile => res.json(profile));
+          new Profile(profilefieds).save().then(profile => res.json(profile));
         });
       }
     });

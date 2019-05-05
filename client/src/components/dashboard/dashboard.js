@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { getCurrentProfile } from "../../actions/profile-actions";
+import DashboardLinks from "./dashboard-links";
 import Spinner from "../layout/Spinner";
 
 class Dashboard extends Component {
@@ -25,7 +26,9 @@ class Dashboard extends Component {
               <i className="fa fa-user" /> Welcome, {user && user.name}
             </p>
             {profile !== null ? (
-              <React.Fragment>has</React.Fragment>
+              <React.Fragment>
+                <DashboardLinks />
+              </React.Fragment>
             ) : (
               <React.Fragment>
                 <p>You dont have a profile ,please setup it!</p>
@@ -51,4 +54,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   { getCurrentProfile }
-)(Dashboard);
+)(withRouter(Dashboard));

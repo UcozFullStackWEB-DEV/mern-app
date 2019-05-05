@@ -2,7 +2,6 @@ import axios from "axios";
 import {
   GET_PROFILE,
   PROFILE_LOADING,
-  GET_ERRORS,
   CLEAR_CURRENT_PROFILE,
   PROFILE_FIELDS_ERROR
 } from "./types";
@@ -32,13 +31,10 @@ export const createUserProfile = (
   const config = {
     "Content-type": "application/json"
   };
-
-  console.log(formData);
-  console.log(history);
   dispatch(setProfileLoading());
   axios
     .post("/api/profile", formData, config)
-    .then(res => console.log(res.data))
+    .then(res => history.push("/dashboard"))
     .catch(err => dispatch(profileFieldsError(err.response.data)));
 };
 

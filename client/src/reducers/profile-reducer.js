@@ -14,8 +14,7 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case PROFILE_LOADING:
       return {
-        ...state,
-        loading: true
+        ...state
       };
     case GET_PROFILE:
       return {
