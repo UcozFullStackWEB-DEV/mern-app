@@ -39,10 +39,7 @@ export const userLogin = userInfo => dispatch => {
       setAuthToken(token);
       dispatch(setCurrentUser(decodedUser));
     })
-    .catch(err => {
-      console.log(err);
-      return dispatch(get_login_errors(err.response.data));
-    });
+    .catch(err => dispatch(get_login_errors(err.response.data)));
 };
 
 export const setCurrentUser = decodedUser => {
@@ -52,14 +49,9 @@ export const setCurrentUser = decodedUser => {
   };
 };
 
-export const logOutUser = history => dispatch => {
+export const logOutUser = () => dispatch => {
   localStorage.removeItem("jwtToken");
   //Remove headers from axios
   setAuthToken(null);
   dispatch({ type: USER_LOG_OUT });
-  if (history) {
-    history.push("/");
-  } else {
-    window.location.replace("/");
-  }
 };

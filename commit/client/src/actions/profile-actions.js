@@ -56,7 +56,7 @@ export const getCurrentProfile = () => dispatch => {
     );
 };
 
-// Add & remove experience
+// Add experience
 
 export const addExpirience = (formData, history) => dispatch => {
   dispatch(setProfileLoading());
@@ -66,32 +66,10 @@ export const addExpirience = (formData, history) => dispatch => {
     .catch(err => dispatch(profileFieldsError(err.response.data)));
 };
 
-export const removeExperience = id => dispatch => {
-  dispatch(setProfileLoading());
-  axios
-    .delete(`/api/profile/experience/${id}`)
-    .then(res => {
-      dispatch(getCurrentProfile());
-    })
-    .catch(err => dispatch(profileFieldsError(err)));
-};
-
-// Add & remove education
-
 export const addEducation = (formData, history) => dispatch => {
   dispatch(setProfileLoading());
   axios
     .post("/api/profile/education", formData)
     .then(res => history.push("/dashboard"))
     .catch(err => dispatch(profileFieldsError(err.response.data)));
-};
-
-export const removeEducation = id => dispatch => {
-  dispatch(setProfileLoading());
-  axios
-    .delete(`/api/profile/education/${id}`)
-    .then(res => {
-      dispatch(getCurrentProfile());
-    })
-    .catch(err => dispatch(profileFieldsError(err)));
 };

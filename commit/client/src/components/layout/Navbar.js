@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { logOutUser } from "../../actions/auth-actions";
 import { clearCurrentProfile } from "../../actions/profile-actions";
@@ -7,11 +7,9 @@ import "./Navbar.css";
 
 class Navbar extends Component {
   onLogout = e => {
-    const { clearCurrentProfile, logOutUser, history } = this.props;
-    console.log(this.props);
     e.preventDefault();
-    clearCurrentProfile();
-    logOutUser(history);
+    this.props.clearCurrentProfile();
+    this.props.logOutUser();
   };
 
   render() {
@@ -87,7 +85,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    logOutUser: history => dispatch(logOutUser(history)),
+    logOutUser: () => dispatch(logOutUser()),
     clearCurrentProfile: () => dispatch(clearCurrentProfile())
   };
 };
@@ -95,4 +93,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withRouter(Navbar));
+)(Navbar);

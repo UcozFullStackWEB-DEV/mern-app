@@ -11,7 +11,8 @@ export default class FormGroup extends Component {
       onChange,
       errors,
       children,
-      id
+      id,
+      className
     } = this.props;
     return (
       <div className="form-group">

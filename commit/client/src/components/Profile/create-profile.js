@@ -1,21 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
-import {
-  createUserProfile,
-  getCurrentProfile
-} from "../../actions/profile-actions";
-import Loading from "../layout/Spinner";
+import { createUserProfile } from "../../actions/profile-actions";
 import FormGroup from "../common/form-group";
 
-const EditProfile = ({
-  createUserProfile,
-  history,
-  errors,
-  profile: { loading, profile },
-  getCurrentProfile
-}) => {
+const createProfile = props => {
   const [formData, setFormData] = useState({
+    handle: "",
     company: "",
     website: "",
     location: "",
@@ -32,27 +23,6 @@ const EditProfile = ({
 
   const [socialInputs, toggleSocialInputs] = useState(false);
 
-  useEffect(() => {
-    console.log(loading);
-    getCurrentProfile();
-    setFormData({
-      ...formData,
-      skills: loading || !profile.skills ? "" : profile.skills.join(" "),
-      company: loading || !profile.company ? "" : profile.company,
-      website: loading || !profile.website ? "" : profile.website,
-      location: loading || !profile.location ? "" : profile.location,
-      status: loading || !profile.status ? "" : profile.status,
-      githubusername:
-        loading || !profile.githubusername ? "" : profile.githubusername,
-      bio: loading || !profile.bio ? "" : profile.bio,
-      twitter: loading || !profile.twitter ? "" : profile.twitter,
-      facebook: loading || !profile.facebook ? "" : profile.facebook,
-      linkedin: loading || !profile.linkedin ? "" : profile.linkedin,
-      youtube: loading || !profile.youtube ? "" : profile.youtube,
-      instagram: loading || !profile.instagram ? "" : profile.instagram
-    });
-  }, []);
-
   const onChange = e => {
     //object spread + computed fields
     console.log(`${e.target.name} : ${e.target.value}`);
@@ -61,10 +31,11 @@ const EditProfile = ({
 
   const onSubmit = e => {
     e.preventDefault();
-    createUserProfile(formData, history);
+    props.createUserProfile(formData, props.history);
   };
 
   const {
+    handle,
     company,
     website,
     location,
@@ -79,10 +50,7 @@ const EditProfile = ({
     instagram
   } = formData;
 
-  if (loading) {
-    return <Loading />;
-  }
-
+  const { errors } = props;
   return (
     <div className="create-profile">
       <div className="container">
@@ -97,6 +65,22 @@ const EditProfile = ({
             </p>
             <small className="d-block pb-3">* = required field</small>
             <form onSubmit={onSubmit}>
+              <FormGroup
+                type="text"
+                className="form-control form-control-lg"
+                placeholder="* Profile handle"
+                name="handle"
+                value={handle}
+                required
+                onChange={onChange}
+                errors={errors.handle}
+              >
+                <small className="form-text text-muted">
+                  A unique handle for your profile URL. Your full name, company
+                  name, nickname, etc (This CAN'T be changed later)
+                </small>
+              </FormGroup>
+
               <div className="form-group">
                 <select
                   className="form-control form-control-lg"
@@ -307,22 +291,19 @@ const EditProfile = ({
 };
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
-    errors: state.errors,
-    profile: state.profile
+    errors: state.errors
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     createUserProfile: (formData, history) =>
-      dispatch(createUserProfile(formData, history)),
-    getCurrentProfile: () => dispatch(getCurrentProfile())
+      dispatch(createUserProfile(formData, history))
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withRouter(EditProfile));
+)(withRouter(createProfile));

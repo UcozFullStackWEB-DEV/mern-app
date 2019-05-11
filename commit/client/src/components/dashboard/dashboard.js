@@ -1,17 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { getCurrentProfile } from "../../actions/profile-actions";
 import DashboardLinks from "./dashboard-links";
 import Spinner from "../layout/Spinner";
-import ExperienceBoard from "../Profile/experience-board";
-import EducationBoard from "../Profile/education-board";
 
 class Dashboard extends Component {
   componentDidMount() {
-    if (!this.props.user.isAuthenticated) {
-      this.props.history.push("/");
-    }
     this.props.getCurrentProfile();
   }
   render() {
@@ -19,6 +14,7 @@ class Dashboard extends Component {
       profile: { profile, loading },
       user: { user }
     } = this.props;
+
     return (
       <div>
         {loading ? (
@@ -29,9 +25,18 @@ class Dashboard extends Component {
             <p className="lead">
               <i className="fa fa-user" /> Welcome, {user && user.name}
             </p>
-            <DashboardLinks profile={profile} />
-            <ExperienceBoard experience={profile.experience} />
-            <EducationBoard education={profile.education} />
+            {profile !== null ? (
+              <React.Fragment>
+                <DashboardLinks />
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <p>You dont have a profile ,please setup it!</p>
+                <Link to="/create-profile" className="btn btn-primary">
+                  Setup Profile
+                </Link>
+              </React.Fragment>
+            )}
           </div>
         )}
       </div>
@@ -46,13 +51,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getCurrentProfile: () => dispatch(getCurrentProfile())
-  };
-};
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  { getCurrentProfile }
 )(withRouter(Dashboard));

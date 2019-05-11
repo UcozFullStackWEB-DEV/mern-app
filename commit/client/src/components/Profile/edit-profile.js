@@ -51,7 +51,7 @@ const EditProfile = ({
       youtube: loading || !profile.youtube ? "" : profile.youtube,
       instagram: loading || !profile.instagram ? "" : profile.instagram
     });
-  }, []);
+  }, [loading]);
 
   const onChange = e => {
     //object spread + computed fields
