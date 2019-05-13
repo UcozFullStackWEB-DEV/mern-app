@@ -30,8 +30,12 @@ class Dashboard extends Component {
               <i className="fa fa-user" /> Welcome, {user && user.name}
             </p>
             <DashboardLinks profile={profile} />
-            <ExperienceBoard experience={profile.experience} />
-            <EducationBoard education={profile.education} />
+            <ExperienceBoard
+              experience={profile.experience ? profile.experience : null}
+            />
+            <EducationBoard
+              education={profile.education ? profile.education : null}
+            />
           </div>
         )}
       </div>

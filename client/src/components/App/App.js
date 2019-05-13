@@ -17,6 +17,7 @@ import CreateProfile from "../Profile/create-profile";
 import EditProfile from "../Profile/edit-profile";
 import AddExperience from "../Profile/add-experience";
 import AddEducation from "../Profile/add-education";
+import Profiles from "../UserProfiles/user-profiles";
 import "./App.css";
 
 if (localStorage.jwtToken) {
@@ -51,6 +52,7 @@ class App extends Component {
                 <Route path={"/edit-profile"} component={EditProfile} />
                 <Route path={"/add-expirience"} component={AddExperience} />
                 <Route path={"/add-education"} component={AddEducation} />
+                <Route path={"/profiles"} component={Profiles} />
               </div>
             </main>
             <Footer />
