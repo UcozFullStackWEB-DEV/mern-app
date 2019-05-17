@@ -30,12 +30,16 @@ class Dashboard extends Component {
               <i className="fa fa-user" /> Welcome, {user && user.name}
             </p>
             <DashboardLinks profile={profile} />
-            <ExperienceBoard
-              experience={profile.experience ? profile.experience : null}
-            />
-            <EducationBoard
-              education={profile.education ? profile.education : null}
-            />
+            {profile && (
+              <React.Fragment>
+                <ExperienceBoard
+                  experience={profile.experience ? profile.experience : null}
+                />
+                <EducationBoard
+                  education={profile.education ? profile.education : null}
+                />
+              </React.Fragment>
+            )}
           </div>
         )}
       </div>

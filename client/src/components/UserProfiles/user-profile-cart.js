@@ -1,7 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const UserProfileCart = props => {
-  const { handle, skills, status, location } = props.profile;
+  const {
+    handle,
+    skills,
+    status,
+    location,
+    user: { _id: userId }
+  } = props.profile;
 
   const renderSkills = skills => {
     return skills.map((skill, i) => (
@@ -26,9 +33,9 @@ const UserProfileCart = props => {
           <h3>{handle}</h3>
           <p>{status}</p>
           <p>{location}</p>
-          <a href="profile.html" className="btn btn-info">
+          <Link to={`/profiles/${userId}`} className="btn btn-info">
             View Profile
-          </a>
+          </Link>
         </div>
         <div className="col-md-4 d-none d-lg-block">
           <h4>Skill Set</h4>

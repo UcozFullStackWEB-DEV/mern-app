@@ -54,17 +54,18 @@ router.get("/all", (req, res) => {
 //@desc   Return user ID
 //@access Public
 
-router.get("/user/:user_id", (req, res) => {
+router.get("/user/:id", (req, res) => {
   const errors = {};
-  Profile.findOne({ user: req.params.user_id })
+  Profile.findOne({ user: req.params.id })
     .populate("user", ["name", "avatar"])
     .then(profile => {
       if (!profile) {
+        console.log(profile);
         errors.noprofile = "There is no profile for this user";
-        res.status(404).json(errors);
+        return res.status(404).json(errors);
       }
 
-      res.json(profile);
+      return res.json(profile);
     })
     .catch(err => res.status(404).json(err));
 });

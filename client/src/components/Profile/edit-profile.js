@@ -33,7 +33,6 @@ const EditProfile = ({
   const [socialInputs, toggleSocialInputs] = useState(false);
 
   useEffect(() => {
-    console.log(loading);
     getCurrentProfile();
     setFormData({
       ...formData,
@@ -307,7 +306,6 @@ const EditProfile = ({
 };
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     errors: state.errors,
     profile: state.profile
